@@ -1,0 +1,25 @@
+package RedisPubSubApp;
+
+import redis.clients.jedis.*;
+
+import redis.clients.jedis.JedisPool;
+
+public class RedisPubSub {
+	public static final String channel_name = "MyChannel";
+
+	public static void main(String[] args) throws Exception {
+		JedisPool jedispool = new JedisPool("localhost");
+		final Jedis subscriberJedis = jedispool.getResource();
+
+		final Subsciber subscriber = new Subsciber();
+		System.out.println("Subscribing to " + channel_name);
+		subscriberJedis.subscribe(subscriber, channel_name);
+		System.out.println("Subscription ended.");
+
+		Jedis publisherJedis = jedispool.getResource();
+		new Publisher(publisherJedis, channel_name).getMessage();
+		subscriber.unsubscribe();
+		jedispool.returnResource(subscriberJedis);
+		jedispool.returnResource(publisherJedis);
+	}
+}
