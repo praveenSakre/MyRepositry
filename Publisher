@@ -17,11 +17,11 @@ public class Publisher {
 	public void getMessage() throws Exception {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Type your message....exit for terminate");
+		System.out.println("Type your message....end for terminate");
 
 		while (true) {
 			String line = reader.readLine();
-			if (!"exit".equals(line)) {
+			if (!"end".equals(line)) {
 				publisherJedis.publish(channel_name, line);
 			} else {
 				break;
