@@ -1,0 +1,31 @@
+package RedisPubSub;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import redis.clients.jedis.Jedis;
+
+public class Publisher {
+	private final Jedis publisherJedis;
+	private final String channel_name;
+
+	public Publisher(Jedis publisherJedis, String channel) {
+		this.publisherJedis = publisherJedis;
+		this.channel_name = channel;
+	}
+
+	public void getMessage() throws Exception {
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Type your message....exit for terminate");
+
+		while (true) {
+			String line = reader.readLine();
+			if (!"exit".equals(line)) {
+				publisherJedis.publish(channel_name, line);
+			} else {
+				break;
+			}
+		}
+	}
+}
