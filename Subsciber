@@ -1,4 +1,4 @@
-package RedisPubSub;
+package RedisPubSubApp;
 
 import redis.clients.jedis.JedisPubSub;
 
